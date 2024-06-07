@@ -68,3 +68,7 @@ autocmd('LspAttach', {
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
+
+
+-- vim.cmd("set fileformat=unix")
+-- vim.cmd("let g:netrw_liststyle = 3")

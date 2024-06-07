@@ -1,4 +1,5 @@
 vim.opt.guicursor = ""
+                -- Your config here
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -14,7 +15,7 @@ vim.opt.wrap = false
 
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = "./undodir"
+vim.opt.undodir = "/Users/harvey/.config/nvim/undodir"
 vim.opt.undofile = true
 
 vim.opt.hlsearch = false
@@ -28,5 +29,7 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "100"
+vim.opt.fileformat = "unix"
 
+vim.opt.ignorecase = true -- ignore case when searching

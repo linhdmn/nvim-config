@@ -32,7 +32,6 @@ return {
             },
             handlers = {
                 function(server_name) -- default handler (optional)
-
                     require("lspconfig")[server_name].setup {
                         capabilities = capabilities
                     }
@@ -44,7 +43,7 @@ return {
                         capabilities = capabilities,
                         settings = {
                             Lua = {
-				    runtime = { version = "Lua 5.1" },
+                                runtime = { version = "Lua 5.1" },
                                 diagnostics = {
                                     globals = { "vim", "it", "describe", "before_each", "after_each" },
                                 }
@@ -57,16 +56,40 @@ return {
 
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
+        local luasnip = require('luasnip')
         cmp.setup({
             snippet = {
                 expand = function(args)
-                    require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                    luasnip.lsp_expand(args.body) -- For `luasnip` users.
                 end,
             },
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
                 ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+                --
+                ['<CR>'] = cmp.mapping.confirm {
+                    behavior = cmp.ConfirmBehavior.Replace,
+                    select = true,
+                },
+                ['<Tab>'] = function(fallback)
+                    if cmp.visible() then
+                        cmp.select_next_item()
+                    elseif luasnip.expand_or_jumpable() then
+                        luasnip.expand_or_jump()
+                    else
+                        fallback()
+                    end
+                end,
+                ['<S-Tab>'] = function(fallback)
+                    if cmp.visible() then
+                        cmp.select_prev_item()
+                    elseif luasnip.jumpable(-1) then
+                        luasnip.jump(-1)
+                    else
+                        fallback()
+                    end
+                end,
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
