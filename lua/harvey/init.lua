@@ -40,7 +40,7 @@ autocmd('TextYankPost', {
     end,
 })
 
-autocmd({"BufWritePre"}, {
+autocmd({ "BufWritePre" }, {
     group = ThePrimeagenGroup,
     pattern = "*",
     command = [[%s/\s\+$//e]],
@@ -62,7 +62,28 @@ autocmd('LspAttach', {
         vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
         vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
         vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+
+        -- Custom key bindings for removing unused code and fixing linter issues
+        vim.keymap.set("n", "<leader>ru", function() vim.lsp.buf.code_action({ only = { "source.organizeImports" } }) end,
+            opts)
+        vim.keymap.set("n", "<leader>fl", function() vim.lsp.buf.format({ async = true }) end, opts)
     end
+})
+
+-- Set transparent background for both active and inactive windows
+vim.api.nvim_create_autocmd({"VimEnter", "WinEnter", "BufWinEnter"}, {
+    pattern = "*",
+    callback = function()
+        vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+    end,
+})
+
+vim.api.nvim_create_autocmd("WinLeave", {
+    pattern = "*",
+    callback = function()
+        vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+    end,
 })
 
 vim.g.netrw_browse_split = 0
