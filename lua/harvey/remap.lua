@@ -59,4 +59,12 @@ vim.keymap.set("n", "<leader>wr", "<cmd>set wrap!<CR>")
 vim.keymap.set("n", "<leader>py", "<cmd>let @+=expand('%:p')<CR>")
 
 vim.api.nvim_set_keymap('n', '<leader>ct', ':CloakToggle<CR>', {noremap = true, silent = true})
+-- Optional: set key mappings for FZF commands
+vim.api.nvim_set_keymap('n', '<leader>ff', ':Files<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fg', ':GFiles<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fb', ':Buffers<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fh', ':History<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>Ag', ':Ag<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>Rg', ':Rg<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>RG', ':RG<CR>', { noremap = true, silent = true })
 

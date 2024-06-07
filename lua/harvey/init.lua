@@ -71,7 +71,7 @@ autocmd('LspAttach', {
 })
 
 -- Set transparent background for both active and inactive windows
-vim.api.nvim_create_autocmd({"VimEnter", "WinEnter", "BufWinEnter"}, {
+vim.api.nvim_create_autocmd({ "VimEnter", "WinEnter", "BufWinEnter" }, {
     pattern = "*",
     callback = function()
         vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
@@ -86,6 +86,7 @@ vim.api.nvim_create_autocmd("WinLeave", {
     end,
 })
 
+
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
@@ -93,3 +94,4 @@ vim.g.netrw_winsize = 25
 
 -- vim.cmd("set fileformat=unix")
 -- vim.cmd("let g:netrw_liststyle = 3")
+
