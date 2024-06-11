@@ -68,3 +68,35 @@ vim.api.nvim_set_keymap('n', '<leader>Ag', ':Ag<CR>', { noremap = true, silent =
 vim.api.nvim_set_keymap('n', '<leader>Rg', ':Rg<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>RG', ':RG<CR>', { noremap = true, silent = true })
 
+
+local function open_in_second_window()
+    -- Get the directory of the current 'netrw' buffer
+    local dir = vim.fn.expand('%:p:h')
+    if vim.fn.isdirectory(dir) == 0 then
+        dir = vim.fn.expand('%:p:h:h')
+    end
+
+    -- Get the file name under the cursor in 'netrw'
+    local file = vim.fn.expand('<cfile>')
+    local full_path = dir .. '/' .. file
+
+    -- Debug: Print the full path to verify
+    print("Debug full path: " .. full_path)
+
+    -- Switch to the second window
+    vim.cmd('wincmd 2w')
+
+    -- Open the file in the second window
+    vim.cmd('edit ' .. vim.fn.fnameescape(full_path))
+end
+
+-- Map the function to a key combination in normal mode
+vim.api.nvim_set_keymap('n', '<Leader>o', '', {
+    noremap = true,
+    silent = true,
+    callback = open_in_second_window
+})
+
+
+vim.api.nvim_set_keymap('n', '<leader>mp', ':MarkdownPreview<CR>', { noremap = true, silent = true })
+

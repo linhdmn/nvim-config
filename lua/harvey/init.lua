@@ -90,8 +90,20 @@ vim.api.nvim_create_autocmd("WinLeave", {
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
+vim.g.mkdp_auto_start = 1  -- Start the preview automatically when opening Markdown files
+vim.g.mkdp_auto_close = 1  -- Close the preview when closing the Markdown buffer
 
 
 -- vim.cmd("set fileformat=unix")
 -- vim.cmd("let g:netrw_liststyle = 3")
+require("aerial").setup({
+  -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+  on_attach = function(bufnr)
+    -- Jump forwards/backwards with '{' and '}'
+    vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+    vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+  end,
+})
+-- You probably also want to set a keymap to toggle aerial
+vim.keymap.set("n", "<leader>ca", "<cmd>AerialToggle!<CR>")
 
