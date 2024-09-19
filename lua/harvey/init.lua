@@ -67,6 +67,25 @@ autocmd('LspAttach', {
         vim.keymap.set("n", "<leader>ru", function() vim.lsp.buf.code_action({ only = { "source.organizeImports" } }) end,
             opts)
         vim.keymap.set("n", "<leader>fl", function() vim.lsp.buf.format({ async = true }) end, opts)
+
+        -- Keybinding to copy the diagnostic of the current line
+        vim.keymap.set("n", "<leader>cd", function()
+            -- Get diagnostics for the current line in the current buffer
+            local diagnostics = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })
+
+            if #diagnostics > 0 then
+                -- Join all diagnostics into a single string
+                local message = table.concat(vim.tbl_map(function(diagnostic)
+                    return diagnostic.message
+                end, diagnostics), '\n')
+
+                -- Copy the message to the system clipboard
+                vim.fn.setreg('+', message)
+                print("Copied diagnostic message to clipboard")
+            else
+                print("No diagnostics found on this line")
+            end
+        end, opts)
     end
 })
 
@@ -90,20 +109,19 @@ vim.api.nvim_create_autocmd("WinLeave", {
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
-vim.g.mkdp_auto_start = 1  -- Start the preview automatically when opening Markdown files
-vim.g.mkdp_auto_close = 1  -- Close the preview when closing the Markdown buffer
+vim.g.mkdp_auto_start = 1 -- Start the preview automatically when opening Markdown files
+vim.g.mkdp_auto_close = 1 -- Close the preview when closing the Markdown buffer
 
 
 -- vim.cmd("set fileformat=unix")
 -- vim.cmd("let g:netrw_liststyle = 3")
 require("aerial").setup({
-  -- optionally use on_attach to set keymaps when aerial has attached to a buffer
-  on_attach = function(bufnr)
-    -- Jump forwards/backwards with '{' and '}'
-    vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
-    vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
-  end,
+    -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+    on_attach = function(bufnr)
+        -- Jump forwards/backwards with '{' and '}'
+        vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+        vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+    end,
 })
 -- You probably also want to set a keymap to toggle aerial
 vim.keymap.set("n", "<leader>ca", "<cmd>AerialToggle!<CR>")
-
